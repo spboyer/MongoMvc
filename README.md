@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Example ASP.NET 5 Web API w/ MongoDB
 
 Example application using MongoDB.
@@ -7,3 +8,7 @@ Example application using MongoDB.
 	- config.json 
 	- ENV variables in deployments
 	
+=======
+# MongoMvc
+ASP.NET 5 WebAPI example using MongoDB
+>>>>>>> origin/master

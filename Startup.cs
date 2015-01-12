@@ -1,19 +1,32 @@
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Routing;
+using Microsoft.Framework.ConfigurationModel;
 using Microsoft.Framework.DependencyInjection;
 
 namespace KWebStartup
 {
     public class Startup
     {
+        public Startup()
+        {
+            Configuration = new Configuration()
+            .AddJsonFile("config.json")
+            .AddEnvironmentVariables();
+        }
+
+        public IConfiguration Configuration { get; set; }
+
+        public void ConfigurationServices(IServiceCollection services)
+        {
+            services.AddMvc(Configuration);
+
+          
+        }
+
         public void Configure(IApplicationBuilder app)
         {
             app.UseStaticFiles();
-
-            app.UseServices(services =>
-            {
-                services.AddMvc();
-            });
+                      
 
             // Add MVC to the request pipeline
             app.UseMvc(routes =>

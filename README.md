@@ -4,6 +4,6 @@
 Example application using MongoDB.
 
 - CRUD Operations
-- Using ICongiguration for db connections
+- Using IConfiguration for db connections
 	- config.json 
 	- ENV variables in deployments

@@ -3,7 +3,7 @@ using Microsoft.AspNet.Routing;
 using Microsoft.Framework.ConfigurationModel;
 using Microsoft.Framework.DependencyInjection;
 
-namespace KWebStartup
+namespace MongoMvc
 {
     public class Startup
     {
@@ -16,30 +16,24 @@ namespace KWebStartup
 
         public IConfiguration Configuration { get; set; }
 
-        public void ConfigurationServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(Configuration);
 
+            //configure the options <classname> and bind from the configuration, uses the IOptions interface Microsoft.Framework.OptionsModel
+            services.Configure<Settings>(Configuration);
+
+            //add the speaker repository to the service collection
+            services.AddSingleton<ISpeakerRespository, SpeakerRepository>();
           
         }
 
         public void Configure(IApplicationBuilder app)
         {
-            app.UseStaticFiles();
-                      
+            app.UseMvc();
+            app.UseWelcomePage();
 
-            // Add MVC to the request pipeline
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action}/{id?}",
-                    defaults: new { controller = "Home", action = "Index" });
-
-                routes.MapRoute(
-                    name: "api",
-                    template: "{controller}/{id?}");
-            });
+           
         }
     }
 }

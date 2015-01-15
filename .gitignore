@@ -45,3 +45,5 @@ Temporary Items
 *.jrs
 *.chk
 *.ide
+*.nupkg
+bin/

@@ -25,7 +25,7 @@ namespace MongoMvc.Controllers
  
         }
 
-        [HttpGet("{id:int}", Name = "GetByIdRoute")]
+        [HttpGet("{id:length(24)}", Name = "GetByIdRoute")]
         public IActionResult GetById(string id)
         {
             var item = _speakerRepository.GetById(new ObjectId(id));
@@ -54,7 +54,7 @@ namespace MongoMvc.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:length(24)}")]
         public IActionResult DeleteSpeaker(string id)
         {
             if (_speakerRepository.Remove(new ObjectId(id)))

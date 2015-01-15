@@ -36,7 +36,7 @@ namespace MongoMvc
 
         public void Add(Speaker speaker)
         {
-            throw new NotImplementedException();
+            _database.GetCollection<Speaker>("speakers").Save(speaker);
         }
 
         public IEnumerable<Speaker> AllSpeakers()

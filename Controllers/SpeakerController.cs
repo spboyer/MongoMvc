@@ -59,7 +59,7 @@ namespace MongoMvc.Controllers
         {
             if (_speakerRepository.Remove(new ObjectId(id)))
             {
-                return new HttpStatusCodeResult(204); // 201 No Content
+                return new HttpStatusCodeResult(204); // 204 No Content
             }
             else
             {

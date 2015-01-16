@@ -25,7 +25,7 @@ namespace MongoMvc
 
     public class SpeakerRepository : ISpeakerRespository
     {
-        readonly List<Speaker> _speakers = new List<Speaker>();
+        
         private readonly Settings _settings;
         private readonly MongoDatabase _database;
         public SpeakerRepository(IOptions<Settings> settings)

@@ -1,48 +1,42 @@
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Routing;
-using Microsoft.Framework.ConfigurationModel;
+﻿using Microsoft.AspNet.Builder;
+using Microsoft.AspNet.Http;
+using Microsoft.Dnx.Runtime;
+using Microsoft.Framework.Configuration;
 using Microsoft.Framework.DependencyInjection;
 
 namespace MongoMvc
 {
     public class Startup
     {
-        public Startup()
+        public Startup(IApplicationEnvironment appEnv)
         {
-            Configuration = new Configuration()
-            .AddJsonFile("config.json")
-            .AddEnvironmentVariables();
+            var configurationBuilder = new ConfigurationBuilder()
+                .SetBasePath(appEnv.ApplicationBasePath)
+                .AddJsonFile("config.json")
+                .AddEnvironmentVariables();
+
+            Configuration = configurationBuilder.Build();
         }
 
-        public IConfiguration Configuration { get; set; }
-
+        public IConfigurationRoot Configuration { get; set; }
+        // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(Configuration);
+            services.AddMvc();
 
-            // one a few ways to remove XML formatters or force JSON
-            // see http://blogs.msdn.com/b/webdev/archive/2014/11/24/content-negotiation-in-mvc-5-or-how-can-i-just-write-json.aspx
-            services.Configure<MvcOptions>(options =>
-                                                options
-                                                    .OutputFormatters
-                                                    .RemoveAll(formatter => formatter.Instance is XmlDataContractSerializerOutputFormatter)
-                                           );
-
-            //configure the options <classname> and bind from the configuration, uses the IOptions interface Microsoft.Framework.OptionsModel
             services.Configure<Settings>(Configuration);
 
-            //add the speaker repository to the service collection
             services.AddSingleton<ISpeakerRespository, SpeakerRepository>();
-
         }
 
         public void Configure(IApplicationBuilder app)
         {
+            // Add the platform handler to the request pipeline.
             app.UseMvc();
             app.UseWelcomePage();
+            app.UseIISPlatformHandler();
 
-           
+            app.Run(async context => { await context.Response.WriteAsync("Hello World!"); });
         }
     }
 }

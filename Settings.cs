@@ -1,7 +1,4 @@
-﻿using System;
-using MongoDB.Driver;
-
-namespace MongoMvc
+﻿namespace MongoMvc
 {
     public class Settings
     {

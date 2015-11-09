@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNet.Mvc;
-using MongoMvc.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Microsoft.AspNet.Mvc;
 using MongoDB.Bson;
+using MongoMvc.Models;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,8 +10,8 @@ namespace MongoMvc.Controllers
     [Route("api/[controller]")]
     public class SpeakerController : Controller
     {
+        private readonly ISpeakerRespository _speakerRepository;
 
-        readonly ISpeakerRespository _speakerRepository;
         public SpeakerController(ISpeakerRespository speakerRepository)
         {
             _speakerRepository = speakerRepository;
@@ -22,7 +22,6 @@ namespace MongoMvc.Controllers
         {
             var speakers = _speakerRepository.AllSpeakers();
             return speakers;
- 
         }
 
         [HttpGet("{id:length(24)}", Name = "GetByIdRoute")]
@@ -42,15 +41,16 @@ namespace MongoMvc.Controllers
         {
             if (!ModelState.IsValid)
             {
-                Context.Response.StatusCode = 400;
+                HttpContext.Response.StatusCode = 400;
             }
             else
             {
                 _speakerRepository.Add(speaker);
 
-                string url = Url.RouteUrl("GetByIdRoute", new { id = speaker.Id.ToString() }, Request.Scheme, Request.Host.ToUriComponent());
-                Context.Response.StatusCode = 201;
-                Context.Response.Headers["Location"] = url;
+                var url = Url.RouteUrl("GetByIdRoute", new {id = speaker.Id.ToString()}, Request.Scheme,
+                    Request.Host.ToUriComponent());
+                HttpContext.Response.StatusCode = 201;
+                HttpContext.Response.Headers["Location"] = url;
             }
         }
 
@@ -61,10 +61,7 @@ namespace MongoMvc.Controllers
             {
                 return new HttpStatusCodeResult(204); // 204 No Content
             }
-            else
-            {
-                return HttpNotFound();
-            }
+            return HttpNotFound();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Framework.OptionsModel;
+using Microsoft.Extensions.OptionsModel;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoMvc.Models;
@@ -26,6 +26,7 @@ namespace MongoMvc
         public IEnumerable<Speaker> AllSpeakers()
         {
             var speakers = _database.GetCollection<Speaker>("speakers").Find(new BsonDocument()).ToListAsync();
+
             return speakers.Result;
         }
 

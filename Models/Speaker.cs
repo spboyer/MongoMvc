@@ -1,6 +1,5 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
 
 namespace MongoMvc.Models
 {
@@ -22,6 +21,5 @@ namespace MongoMvc.Models
 
         [BsonElement("blog")]
         public string Blog { get; set; }
-
     }
 }
